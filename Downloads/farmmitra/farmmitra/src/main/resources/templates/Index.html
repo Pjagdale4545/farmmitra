@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Mitra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: rgb(128, 128, 0); /* A light gray background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        .header-logo {
+            background-color: #ffffff;
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .header-logo img {
+            height: 120px; /* Adjust logo height as needed */
+            width: 350px;
+        }
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 82px); /* 100vh minus header height */
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            background-color: rgb(255, 255, 255);
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-custom {
+            font-size: 1.2rem;
+            padding: 0.75rem 2rem;
+            margin: 0 1rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-logo">
+    <img th:src="@{/images/background.jpg}" alt="Farm Mitra Logo">
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <h1>Welcome to Farm Mitra</h1>
+        <p>Your one-stop solution for agricultural needs.</p>
+        <p class="lead mb-4">Please select your role to continue.</p>
+
+        <a th:href="@{/select-role(role='buyer')}" class="btn btn-primary btn-custom">I am a Buyer</a>
+		<a th:href="@{/farmer/login}" class="btn btn-success btn-custom">I am a Farmer</a>
+
+    
+    </div>
+</div>
+
+</body>
+</html>
