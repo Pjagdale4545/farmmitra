@@ -10,7 +10,7 @@ pipeline {
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '', timeout: 10, verbose: true]],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/pagadals4545/farmmitra.git',
+                        url: 'https://github.com/Pagadals4545/farmmitra.git',
                         credentialsId: 'farmmitra2'
                     ]]
                 ])
