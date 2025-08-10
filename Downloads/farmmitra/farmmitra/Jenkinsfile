@@ -1,0 +1,38 @@
+pipeline {
+    agent any  // Run on any available agent
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Get the latest code from your Git repository
+                git branch: 'master', 
+                    credentialsId: 'farmmitra', 
+                    url: 'https://github.com/Pjagdale4545/farmmitra.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building Pharma Mitra project...'
+                sh 'mvn clean compile'
+            }
+        }
+
+       
+        stage('Package') {
+            steps {
+                echo 'Packaging the application...'
+                sh 'mvn package'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build successful!'
+        }
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
