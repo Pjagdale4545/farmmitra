@@ -1,15 +1,23 @@
 pipeline {
-    agent any  // Run on any available agent
-
+    agent any
     stages {
         stage('Checkout') {
             steps {
-                // Get the latest code from your Git repository
-                git branch: 'master', 
-                    credentialsId: 'farmmitra2', 
-                    url: 'https://github.com/Pjagdale4545/farmmitra.git'
+                // Verbose Git output
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '', timeout: 10, verbose: true]],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/pagadals4545/farmmitra.git',
+                        credentialsId: 'github-creds'
+                    ]]
+                ])
             }
         }
+    }
+}
 
         stage('Build') {
             steps {
