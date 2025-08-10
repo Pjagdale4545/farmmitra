@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // Get the latest code from your Git repository
                 git branch: 'master', 
-                    credentialsId: 'farmmitra', 
+                    credentialsId: 'farmmitra2', 
                     url: 'https://github.com/Pjagdale4545/farmmitra.git'
             }
         }
