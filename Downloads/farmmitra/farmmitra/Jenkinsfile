@@ -11,7 +11,7 @@ pipeline {
                     extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '', timeout: 10, verbose: true]],
                     userRemoteConfigs: [[
                         url: 'https://github.com/pagadals4545/farmmitra.git',
-                        credentialsId: 'github-creds'
+                        credentialsId: 'farmmitra2'
                     ]]
                 ])
             }
