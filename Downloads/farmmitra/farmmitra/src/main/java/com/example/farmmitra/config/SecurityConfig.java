@@ -5,9 +5,9 @@ import com.example.farmmitra.Service.FarmerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager; // Import
-import org.springframework.security.authentication.AuthenticationProvider; // Import
-import org.springframework.security.authentication.ProviderManager; // Import
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.Arrays; // Import
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -55,10 +55,6 @@ public class SecurityConfig {
         return authProvider;
     }
 
-    /**
-     * Defines the AuthenticationManager bean, which combines all your AuthenticationProviders.
-     * This is the recommended way to configure multiple providers.
-     */
     @Bean
     public AuthenticationManager authenticationManager() {
         List<AuthenticationProvider> providers = Arrays.asList(buyerAuthenticationProvider(), farmerAuthenticationProvider());
@@ -71,27 +67,23 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                 .requestMatchers("/", "/select-role").permitAll()
-                .requestMatchers("/buyer/login-register", "/buyer/register", "/farmer/login-register", "/farmer/register").permitAll()
+                .requestMatchers(
+                    "/farmer/login", 
+                    "/farmer/register", 
+                    "/farmer/send-otp",
+                    "/buyer/login", 
+                    "/buyer/register"
+                ).permitAll()
                 .requestMatchers("/perform_login").permitAll()
                 .requestMatchers("/buyer/dashboard").hasRole("BUYER")
                 .requestMatchers("/farmer/dashboard").hasRole("FARMER")
                 .anyRequest().authenticated()
             )
-            
             .formLogin(form -> form
-                    .loginPage("/farmer/login") 
-                    .loginProcessingUrl("/perform_login")
-                    .successHandler(customAuthenticationSuccessHandler)
-                    .failureUrl("/farmer/login?error=true")
-                    .permitAll()
-
-            		)
-
-            .formLogin(form -> form
-                .loginPage("/buyer/login-register")
+                .loginPage("/farmer/login")
                 .loginProcessingUrl("/perform_login")
                 .successHandler(customAuthenticationSuccessHandler)
-                .failureUrl("/buyer/login-register?error=true")
+                .failureUrl("/farmer/login?error=true")
                 .permitAll()
             )
             .logout(logout -> logout
@@ -102,14 +94,12 @@ public class SecurityConfig {
                 .permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/farmer/register", "/farmer/login")
+                // ONLY ignore CSRF for specific POST requests that don't come from a form, like a REST API endpoint.
+                // For form submissions, we want CSRF enabled. The previous configuration was incorrect.
+                .ignoringRequestMatchers("/farmer/send-otp", "/buyer/register")
             )
-            // Register the custom authentication manager
             .authenticationManager(authenticationManager());
 
         return http.build();
-        
-    
-            
-     }
     }
+}

@@ -10,12 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class OtpService {
-
     @Value("${msg91.api.key}")
     private String apiKey;
-
-    @Value("${msg91.sender.id}")
-    private String senderId;
+    
+    // Use the flowId for testing purposes
+    @Value("${msg91.test.flow.id}")
+    private String flowId;
 
     private final Map<String, String> otpCache = new ConcurrentHashMap<>();
     private final RestTemplate restTemplate = new RestTemplate();
@@ -31,8 +31,8 @@ public class OtpService {
 
         String url = UriComponentsBuilder.fromHttpUrl("https://api.msg91.com/api/v5/otp")
                 .queryParam("authkey", apiKey)
-                .queryParam("template_id", "YOUR_TEMPLATE_ID_HERE") 
-                .queryParam("mobile", "91" + mobileNumber) 
+                .queryParam("message", "Hi this is"+otp+" from MSG91") // Use flow_id instead of template_id
+                .queryParam("mobile", "91" + mobileNumber)
                 .queryParam("otp", otp)
                 .toUriString();
 

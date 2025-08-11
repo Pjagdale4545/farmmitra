@@ -4,6 +4,8 @@ import com.example.farmmitra.model.Farmer;
 import com.example.farmmitra.model.Role;
 import com.example.farmmitra.Repository.FarmerRepository;
 import com.example.farmmitra.Service.OtpService;
+import com.example.farmmitra.dto.UserRegistrationDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model; // Corrected import
 
 @Controller
 public class FarmerController {
@@ -32,7 +35,18 @@ public class FarmerController {
     }
 
     @GetMapping("/farmer/register")
-    public String showFarmerRegisterPage() {
+    public String showFarmerRegisterPage(Model model) {
+        // Ensure the model contains a mobileNumber attribute
+      
+        if (!model.containsAttribute("mobileNumber")) {
+            model.addAttribute("mobileNumber", null);
+        }
+        
+        // This is also good practice to ensure the DTO is always available
+        if (!model.containsAttribute("registrationForm")) {
+            model.addAttribute("registrationForm", new UserRegistrationDto());
+        }
+
         return "farmer-register";
     }
 

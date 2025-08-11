@@ -21,7 +21,7 @@
                         <h2 class="card-title text-center mb-4">New Farmer Registration</h2>
                         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
                         <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
-                        <form th:action="@{/farmer/send-otp}" method="post" id="sendOtpForm" th:if="${!mobileNumber}">
+                        <form th:action="@{/farmer/send-otp}" method="post" id="sendOtpForm" th:if="${mobileNumber==null}">
                             <div class="mb-3">
                                 <label for="mobileNumber" class="form-label">Mobile Number</label>
                                 <div class="input-group">
